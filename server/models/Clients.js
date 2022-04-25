@@ -17,8 +17,17 @@ Clients.init(
     fullName: {
       type: DataTypes.STRING,
       allowNull: false,
-
-      // allowNull defaults to true
+      validate: {
+        is: /^([a-zA-Z]+[',.-]?[a-zA-Z ]*)+[ ]([a-zA-Z]+[',.-]?[a-zA-Z ]+)+$/,
+      },
+    },
+    address: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
+    gender: {
+      type: DataTypes.STRING,
+      allowNull: false,
     },
   },
   {
@@ -28,5 +37,4 @@ Clients.init(
   }
 );
 
-// the defined model is the class itself
-console.log(User === sequelize.models.User); // true
+module.exports = Clients;
