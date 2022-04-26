@@ -18,8 +18,7 @@ Invitations.init(
     },
     receiverId: {
       type: DataTypes.STRING,
-      allowNull: false,
-      defaultValue: null,
+      defaultValue: "",
     },
   },
   {

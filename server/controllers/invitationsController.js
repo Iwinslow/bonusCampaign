@@ -1,4 +1,4 @@
-const { Invitations } = require("../models");
+const { Invitations, Clients } = require("../models");
 const uniqueLinkGenerator = require("../utils/uniqueLinkGenerator");
 
 exports.generateInvitationLink = async (req, res) => {
@@ -9,13 +9,13 @@ exports.generateInvitationLink = async (req, res) => {
       where: { email, fullName },
     });
     //If client is not registered, redirect him to the registration website
-    if (!controlClientWasRegistered.data) {
-      res.status(400).redirect("/register");
+    if (!controlClientWasRegistered) {
+      return res.status(400).redirect("/register");
     }
     const link = uniqueLinkGenerator();
     const newInvitation = await Invitations.create({
       link,
-      sender: controlClientWasRegistered.data.id,
+      senderId: controlClientWasRegistered.dataValues.id,
     });
     res.status(201).send(newInvitation);
   } catch (error) {
@@ -30,7 +30,7 @@ exports.getAllSuccessfulInvitationsData = async (req, res) => {
         consumed: true,
       },
     });
-    res.status(200).send(allSuccessfulInvitations.data);
+    res.status(200).send(allSuccessfulInvitations);
   } catch (error) {
     console.error(error);
   }
