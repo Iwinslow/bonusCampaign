@@ -1,13 +1,67 @@
 body {
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+.navbar {
+  background: #074f71;
+  height: 160px;
+  width: 100%;
+}
+.navbar__container {
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.087);
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+.navbar__logo img {
+  padding: 20px;
+  height: 80px;
+}
+.navbar__buttons {
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+}
+.navbar__buttons a {
+  text-decoration: none;
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+.navbar__item {
+  color: #074f71;
+  background: #f8b133;
+  margin: 10px;
+  font-size: 20px;
+  border-radius: 100px;
+  padding: 15px;
+  font-weight: bold;
+  box-shadow: 10px 10px 5px rgba(0, 0, 0, 0.2);
+}
+.navbar__item:hover {
+  color: #f8b133;
+  background: #074f71;
+  border: 2px solid #f8b133;
+  padding: 13px;
+}
+.invite__link textarea {
+  margin: 10px;
+  padding: 3px;
+  width: 18rem;
+}
+
+@media all and (max-width: 600px) {
+  .navbar {
+    height: 80px;
+  }
+
+  .navbar__logo img {
+    height: 40px;
+  }
+  .navbar__item {
+    margin: 2px;
+    font-size: 12px;
+    padding: 4px;
+  }
 }
