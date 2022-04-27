@@ -1,5 +1,5 @@
 function SuccessInvitations() {
-  return <div>SuccessInvitations</div>;
+  return <div className="">SuccessInvitations</div>;
 }
 
 export default SuccessInvitations;
