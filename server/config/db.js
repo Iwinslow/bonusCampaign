@@ -1,7 +1,7 @@
 const Sequelize = require("sequelize");
 const { usuario, password } = require("./postgresqlCredentials");
 
-const db = new Sequelize("currencyBird", usuario, password, {
+const db = new Sequelize("currencybirdtest", usuario, password, {
   host: "localhost",
   dialect: "postgres",
   logging: false,

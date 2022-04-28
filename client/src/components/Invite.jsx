@@ -68,7 +68,7 @@ function Invite() {
     } else {
       setLink(`http://localhost:3000/register/invite/${generatedLink}`);
       swal({
-        text: "Ha generado un link de invitación de forma exitosa. ¡Envielo a un colega y ambos recibiran $5000 CLP!",
+        text: "Ha generado un link de invitación de forma exitosa. ¡Envíelo a un colega y ambos recibirán $5000 CLP!",
         icon: "success",
       });
       setValues({ email: "", fullName: "" });
@@ -83,6 +83,9 @@ function Invite() {
     <>
       <div className={styles.container}>
         <h2 className={styles.title}>Invita a un colega</h2>
+        <p style={{ textAlign: "center", fontSize: "13px", width: "280px" }}>
+          Ingresa tu email y Nombre completo para generar un link de invitación.
+        </p>
         <form className={styles.form} onSubmit={handleSubmit}>
           {inputs.map((input, i) => (
             <FormInput
