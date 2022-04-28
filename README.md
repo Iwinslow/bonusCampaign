@@ -7,7 +7,7 @@ Para esto:
 1) ingrese al directorio del proyecto /currencyBirdCampaign/server/config/db.js;
 2) en la linea numero 3 del codigo de dicho archivo, cambie el segundo y tercer parametro de la instancia del constructor Sequelize por su usuario y su password (new Sequelize('database', 'username', 'password, {...opt}))
 </p>
-<p>Usuarios para seedeados para testing (email/fullname):
+<p>Usuarios seedeados en DB (email/fullname):
     <ul>
         <li><code>{email:"test1@test.com", fullName:"test one"}</code></li>
         <li><code>{email:"test2@test.com", fullName:"test two"}</code></li>
