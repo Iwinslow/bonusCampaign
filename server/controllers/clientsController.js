@@ -26,8 +26,8 @@ exports.createClientByInvitation = async (req, res) => {
     } else {
       //Crea el nuevo usuario, consume la invitacion enviada, agrega las bonificaciones a las cuentas de ambos usuarios y finalmente envia el nuevo usuario como respuesta
       const newClient = await Clients.create({
-        email,
-        fullName,
+        email: email.toLowerCase(),
+        fullName: fullName.toLowerCase(),
         address,
         gender,
       });

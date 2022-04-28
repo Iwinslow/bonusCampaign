@@ -7,18 +7,17 @@ import FormButton from "../commons/FormButton";
 
 import { generateInvitationLink } from "../services/invitationServices";
 
+import styles from "../styles/Invite.module.css";
+
 function Invite() {
+  //declaracion de variables de estados locales
   const [btnDisabled, setBtnDisabled] = useState(false);
   const [link, setLink] = useState("");
+  //declaracion de variables de estados relacionadas al formulario y sus inputs
   const [values, setValues] = useState({
     email: "",
     fullName: "",
   });
-  //Check if all field of the form are completed
-  useEffect(() => {
-    const checkFieldAreNotEmpty = Object.values(values).every((x) => x !== "");
-    checkFieldAreNotEmpty ? setBtnDisabled(false) : setBtnDisabled(true);
-  }, [values]);
 
   const inputs = [
     {
@@ -39,6 +38,19 @@ function Invite() {
     },
   ];
 
+  //useEffect controla que todos los campos del formulario este completos correctamente y habilita el boton submit
+  useEffect(() => {
+    const checkFieldAreNotEmpty = Object.values(values).every((x) => x !== "");
+    checkFieldAreNotEmpty &&
+    /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/.test(values.email) &&
+    /^([a-zA-Z]+[',.-]?[a-zA-Z ]*)+[ ]([a-zA-Z]+[',.-]?[a-zA-Z ]+)+$/.test(
+      values.fullName
+    )
+      ? setBtnDisabled(false)
+      : setBtnDisabled(true);
+  }, [values]);
+
+  //Funciones manejadoras de eventos relacionados al formulario(cambios en Inputs/Submit del form/copiar link de invitación)
   const onChange = (e) =>
     setValues({ ...values, [e.target.name]: e.target.value });
 
@@ -50,22 +62,28 @@ function Invite() {
       swal({
         text: generatedLink.message,
         icon: "error",
-        timer: 1500,
+        timer: 1700,
         buttons: false,
       });
     } else {
       setLink(`http://localhost:3000/register/invite/${generatedLink}`);
+      swal({
+        text: "Ha generado un link de invitación de forma exitosa. ¡Envielo a un colega y ambos recibiran $5000 CLP!",
+        icon: "success",
+      });
+      setValues({ email: "", fullName: "" });
     }
   };
+
   const copyToClipBoard = () => {
     navigator.clipboard.writeText(link);
   };
 
   return (
     <>
-      <div className="invite__container">
-        <h2 className="invite__title">Invita a un colega</h2>
-        <form className="invite__form" onSubmit={handleSubmit}>
+      <div className={styles.container}>
+        <h2 className={styles.title}>Invita a un colega</h2>
+        <form className={styles.form} onSubmit={handleSubmit}>
           {inputs.map((input, i) => (
             <FormInput
               key={i}
@@ -80,9 +98,12 @@ function Invite() {
           </FormButton>
         </form>
         {link && (
-          <div className="invite__link">
+          <div className={styles.link}>
             <a href={link}>{link}</a>
-            <button className="invite__copyButton" onClick={copyToClipBoard}>
+            <button
+              className={styles.link__copyButton}
+              onClick={copyToClipBoard}
+            >
               <FaCopy />
             </button>
           </div>

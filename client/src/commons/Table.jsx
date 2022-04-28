@@ -1,10 +1,21 @@
+import styles from "../styles/Table.module.css";
+
 function Table({ data }) {
+  //Convierte los totales alojados en la DB en divisas CLP
+  const currencyFormaterCLP = (number) => {
+    let clpFormater = new Intl.NumberFormat("es-CL", {
+      currency: "CLP",
+      style: "currency",
+    }).format(number);
+    return clpFormater;
+  };
+
   return (
     <>
       {data ? (
-        <table className="succesInv__table">
+        <table className={styles.table}>
           <thead>
-            <tr className="succesInv__table--header">
+            <tr className={styles.head}>
               <th>Nombre completo</th>
               <th>Invitaciones</th>
               <th>Total recibido $</th>
@@ -14,8 +25,12 @@ function Table({ data }) {
             {data.map((client, i) => (
               <tr key={i}>
                 <td key={i}>{client.fullName}</td>
-                <td key={i + 1}>{client.invitationsSent}</td>
-                <td key={i + 2}>{client.totalReceived}</td>
+                <td style={{ textAlign: "center" }} key={i + 1}>
+                  {client.invitationsSent}
+                </td>
+                <td style={{ textAlign: "center" }} key={i + 2}>
+                  {currencyFormaterCLP(client.totalReceived)}
+                </td>
               </tr>
             ))}
           </tbody>

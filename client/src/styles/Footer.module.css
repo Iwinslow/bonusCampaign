@@ -1,0 +1,14 @@
+.container {
+  position: fixed;
+  width: 100%;
+  bottom: 0px;
+  background: #074f71;
+}
+.logo {
+  display: flex;
+  justify-content: center;
+}
+.logo img {
+  margin: 1rem;
+  width: 5rem;
+}

@@ -2,9 +2,11 @@ import axios from "axios";
 
 export const generateInvitationLink = async ({ email, fullName }) => {
   try {
+    let emailFormated = email.toLowerCase();
+    let fullNameFormated = fullName.toLowerCase();
     const link = await axios.post("http://localhost:3001/invite", {
-      email,
-      fullName,
+      email: emailFormated,
+      fullName: fullNameFormated,
     });
     return link.data.link;
   } catch (error) {
@@ -16,8 +18,15 @@ export const generateInvitationLink = async ({ email, fullName }) => {
 };
 
 export const getAllSuccessfulInvitationsData = async () => {
-  const allSuccessfulInvitations = await axios.get(
-    "http://localhost:3001/invite/allsuccessful"
-  );
-  return allSuccessfulInvitations.data;
+  try {
+    const allSuccessfulInvitations = await axios.get(
+      "http://localhost:3001/invite/allsuccessful"
+    );
+    return allSuccessfulInvitations.data;
+  } catch (error) {
+    if (error.response) {
+      const errorMsj = { message: error.response.data.message };
+      return errorMsj;
+    }
+  }
 };

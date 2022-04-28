@@ -1,20 +1,21 @@
 import { Link } from "react-router-dom";
 
 import logo from "../assets/currencyBird.svg";
+import styles from "../styles/Navbar.module.css";
 
 function Navbar() {
   return (
     <header>
-      <nav className="navbar">
-        <div className="navbar__container">
+      <nav className={styles.navbar}>
+        <div className={styles.container}>
           <Link to="/">
-            <div className="navbar__logo">
+            <div className={styles.logo}>
               <img src={logo} alt="CurrencyBird Logo" />
             </div>
           </Link>
-          <div className="navbar__buttons">
+          <div className={styles.buttons}>
             <Link to="/successfullinvitations">
-              <div className="navbar__item">Estado de Invitaciones</div>
+              <div className={styles.item}>Estado de Invitaciones</div>
             </Link>
           </div>
           <div></div>

@@ -1,3 +1,5 @@
+//El siguiente array contiene la fake data que sera ingresada en la DB al correr el comando "npm seed" estando ubicando con su terminarl en /currencyBirdCampaign/server
+
 const clientsList = [
   {
     email: "test1@test.com",
