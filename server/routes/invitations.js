@@ -6,10 +6,10 @@ const {
   getAllSuccessfulInvitationsData,
 } = require("../controllers/invitationsController");
 
-//Generate an invitation link
+//Genera un link de invitacion
 router.post("/", generateInvitationLink);
 
-//Get data of all successful invitations with total income
+//Trae la informacion respectiva a todas las invitaciones exitosas (consumidas)
 router.get("/allsuccessful", getAllSuccessfulInvitationsData);
 
 module.exports = router;

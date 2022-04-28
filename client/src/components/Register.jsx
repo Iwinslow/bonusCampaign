@@ -7,9 +7,14 @@ import FormButton from "../commons/FormButton";
 
 import { createClientByInvitation } from "../services/registerServices";
 
+import styles from "../styles/Register.module.css";
+
 function Register() {
+  //declaracion de variables de estados locales
+  const navigate = useNavigate();
   let { link } = useParams();
   const [btnDisabled, setBtnDisabled] = useState(false);
+  //declaracion de variables de estados relacionadas al formulario y sus inputs
   const [values, setValues] = useState({
     fullName: "",
     email: "",
@@ -17,11 +22,6 @@ function Register() {
     gender: "",
     link,
   });
-  //Check if all field of the form are completed
-  useEffect(() => {
-    const checkFieldAreNotEmpty = Object.values(values).every((x) => x !== "");
-    checkFieldAreNotEmpty ? setBtnDisabled(false) : setBtnDisabled(true);
-  }, [values]);
 
   const inputs = [
     {
@@ -44,10 +44,27 @@ function Register() {
       name: "address",
       type: "text",
       placeholder: "Dirección",
+      pattern: "^.{8,}$",
+      errorMessage: "Ingrese una dirección valida",
       required: true,
     },
   ];
 
+  //useEffect controla que todos los campos del formulario este completos correctamente y habilita el boton submit
+  useEffect(() => {
+    const checkFieldAreNotEmpty = Object.values(values).every((x) => x !== "");
+    checkFieldAreNotEmpty &&
+    /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/.test(values.email) &&
+    /^([a-zA-Z]+[',.-]?[a-zA-Z ]*)+[ ]([a-zA-Z]+[',.-]?[a-zA-Z ]+)+$/.test(
+      values.fullName
+    ) &&
+    values.gender !== "" &&
+    /^.{6,}$/.test(values.address)
+      ? setBtnDisabled(false)
+      : setBtnDisabled(true);
+  }, [values]);
+
+  //Funciones manejadoras de eventos relacionados al formulario(cambios en Inputs/Submit del form)
   const onChange = (e) =>
     setValues({ ...values, [e.target.name]: e.target.value });
 
@@ -63,17 +80,21 @@ function Register() {
         buttons: false,
       });
     } else {
-      navigate("/invite");
+      swal({
+        text: "¡Se ha registrado exitosamente! Ha obtenido $5000 CLP.",
+        icon: "success",
+        timer: 2200,
+        buttons: false,
+      });
+      navigate("/");
     }
   };
 
-  const navigate = useNavigate();
-
   return (
     <>
-      <div className="register__container">
-        <h2 className="register__title">Formulario de registro</h2>
-        <form className="register__form" onSubmit={handleSubmit}>
+      <div className={styles.container}>
+        <h2 className={styles.title}>Formulario de registro</h2>
+        <form className={styles.form} onSubmit={handleSubmit}>
           {inputs.map((input, i) => (
             <FormInput
               key={i}
@@ -82,12 +103,13 @@ function Register() {
               onChange={onChange}
             />
           ))}
-          <select name="gender" onChange={onChange}>
+          <select name="gender" onChange={onChange} className={styles.select}>
             <option selected hidden>
               Sexo
             </option>
             <option>Masculino</option>
             <option>Femenino</option>
+            <option>Otro</option>
           </select>
           <FormButton type="submit" isDisabled={btnDisabled}>
             REGISTRARSE

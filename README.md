@@ -2,11 +2,9 @@
 
 <h3>Premisas</h3>
 <p>Debera contar con PostgreSQL instalado en su ordenador para correr el proyecto.</p>
-<p>Si su conección al servicio de PostgreSQL en su ordenador esta configurado con un usuario y contraseña, debera setiar los mismos en el servidor. 
-Para esto: 
-1) ingrese al directorio del proyecto /currencyBirdCampaign/server/config/db.js;
-2) en la linea numero 3 del codigo de dicho archivo, cambie el segundo y tercer parametro de la instancia del constructor Sequelize por su usuario y su password (new Sequelize('database', 'username', 'password, {...opt}))
+<p>Si su conección al servicio de PostgreSQL en su ordenador esta configurado con un usuario y contraseña, debera setiar sus credenciales en el archivo postgresqlCredentials.js ubicado en la carpeta "config" del server. Por defecto se encuentran setiandos en "null".
 </p>
+<p>Tener en cuenta que el servidor esta configurado para funcionar de forma local en el puerto nª3001 podra modificarlo desde el archivo index.js del directorio server.</p>
 <p>Usuarios seedeados en DB (email/fullname):
     <ul>
         <li><code>{email:"test1@test.com", fullName:"test one"}</code></li>
