@@ -13,9 +13,6 @@ function Navbar() {
             </div>
           </Link>
           <div className="navbar__buttons">
-            <Link to="/invite">
-              <div className="navbar__item">Invitar</div>
-            </Link>
             <Link to="/successfullinvitations">
               <div className="navbar__item">Estado de Invitaciones</div>
             </Link>
