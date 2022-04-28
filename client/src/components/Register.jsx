@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
-import { FaCopy } from "react-icons/fa";
 import { useNavigate, useParams } from "react-router-dom";
+import swal from "sweetalert";
 
 import FormInput from "../commons/FormInput";
 import FormButton from "../commons/FormButton";
@@ -54,8 +54,17 @@ function Register() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     console.log("values en form", values);
-    createClientByInvitation(values);
-    navigate("/invite");
+    const newUser = await createClientByInvitation(values);
+    if (newUser.message) {
+      swal({
+        text: newUser.message,
+        icon: "error",
+        timer: 1500,
+        buttons: false,
+      });
+    } else {
+      navigate("/invite");
+    }
   };
 
   const navigate = useNavigate();

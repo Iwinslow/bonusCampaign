@@ -1,70 +1,48 @@
 const { Clients, Invitations, Wallets } = require("../models");
 
-exports.createClient = async (req, res) => {
-  try {
-    const { email, fullName, address, gender } = req.body;
-    //Controll if client is registered by email (unique atribute)
-    const controlClientWasRegistered = await Clients.findAll({
-      where: { email },
-    });
-    //If Client was already registered, send msj "email is already in use"
-    if (controlClientWasRegistered[0]) {
-      return res.status(400).send("email is already in use");
-    } else {
-      //Else, create new user and send it to the client
-      const newClient = await Clients.create({
-        email,
-        fullName,
-        address,
-        gender,
-      });
-      res.status(201).send(newClient);
-    }
-  } catch (error) {
-    console.error(error);
-  }
-};
-
 exports.createClientByInvitation = async (req, res) => {
   try {
+    //Obtiene el link de registro desde params y lo busca en la db. Si no existe, envia mensaje y finaliza.
     const { link } = req.params;
     const invitation = await Invitations.findOne({ where: { link } });
+    if (!invitation) {
+      return res
+        .status(400)
+        .send({ message: "invitation link does not exist" });
+    }
 
     const { email, fullName, address, gender } = req.body;
-    //Controll if client is registered by email (unique atribute)
+
+    //Controla si el email enviado ya se encuentra en uso. Si ya esta en uso, envia mensaje y finaliza
     const controlClientWasRegistered = await Clients.findOne({
       where: { email },
     });
-    //If Client was already registered, send msj "email is already in use"
     if (controlClientWasRegistered) {
-      return res.status(400).send("email already in use");
+      return res.status(400).send({ message: "email already in use" });
     }
-    if (!invitation) {
-      //if the invitation link does not exist, send msj "invitation link does not exist"
-      return res.status(400).send("invitation link does not exist");
-    }
+    //Controla si el link de invitacion ya ha sido utilizado. Si esta consumido, envia mensaje y finaliza
     if (invitation && invitation.dataValues.consumed === true) {
-      //if the invitation link exist, but was consumed, send msj "invitation link has been used"
-      return res.status(400).send("invitation link has been used");
+      return res.status(400).send({ message: "invitation link has been used" });
     } else {
-      //Else, create new user and send it to the client
+      //Crea el nuevo usuario, consume la invitacion enviada, agrega las bonificaciones a las cuentas de ambos usuarios y finalmente envia el nuevo usuario como respuesta
       const newClient = await Clients.create({
         email,
         fullName,
         address,
         gender,
       });
-      //consume the invitation by changing "consumed" property to true and set the "receiverId" with the new client id
+      //consume la invitacion cambiando su estado a "consumed" y setea al receiverId con el nuevo usuario creado
       const updatedInvitation = await Invitations.update(
         { consumed: true, receiverId: newClient.dataValues.id },
         { where: { link } }
       );
-      //and then add the bonus in their wallets (sender and receiver)
+      //agrega la bonificacion en la billetera del nuevo usuario (receptor de la invitacion)
       const receiverWallet = await Wallets.create({
         currency: "CLP",
         total: 5000,
         clientId: newClient.dataValues.id,
       });
+      //controla si existe la billetera del usuario que envio la invitacion, si no existe la crea con bonificacion. Si existe, agrega al total la bonificacion obtenida
       const controlIfSenderWalletExist = await Wallets.findOne({
         where: {
           currency: "CLP",

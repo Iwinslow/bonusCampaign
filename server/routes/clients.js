@@ -4,10 +4,8 @@ const {
   createClient,
   createClientByInvitation,
 } = require("../controllers/clientsController");
-//Register a client without an invitation
-router.post("/", createClient);
 
-//Register a client with an invitation Link
+//Registra a un cliente que ha sido invitado
 router.post("/invite/:link", createClientByInvitation);
 
 module.exports = router;

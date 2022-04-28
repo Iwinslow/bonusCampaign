@@ -7,16 +7,21 @@ export const createClientByInvitation = async ({
   gender,
   link,
 }) => {
-  console.log("values en services", email, fullName, address, gender, link);
-  const newClient = await axios.post(
-    `http://localhost:3001/register/invite/${link}`,
-    {
-      email,
-      fullName,
-      address,
-      gender,
+  try {
+    const newClient = await axios.post(
+      `http://localhost:3001/register/invite/${link}`,
+      {
+        email,
+        fullName,
+        address,
+        gender,
+      }
+    );
+    return newClient.data;
+  } catch (error) {
+    if (error.response) {
+      const errorMsj = { message: error.response.data.message };
+      return errorMsj;
     }
-  );
-  console.log("newClient", newClient);
-  return newClient.data;
+  }
 };

@@ -1,13 +1,18 @@
 import axios from "axios";
 
 export const generateInvitationLink = async ({ email, fullName }) => {
-  console.log("en services", email, fullName);
-  const link = await axios.post("http://localhost:3001/invite", {
-    email,
-    fullName,
-  });
-  console.log("link en services", link);
-  return link.data.link;
+  try {
+    const link = await axios.post("http://localhost:3001/invite", {
+      email,
+      fullName,
+    });
+    return link.data.link;
+  } catch (error) {
+    if (error.response) {
+      const errorMsj = { message: error.response.data.message };
+      return errorMsj;
+    }
+  }
 };
 
 export const getAllSuccessfulInvitationsData = async () => {

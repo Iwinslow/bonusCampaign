@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { FaCopy } from "react-icons/fa";
+import swal from "sweetalert";
 
 import FormInput from "../commons/FormInput";
 import FormButton from "../commons/FormButton";
@@ -44,7 +45,17 @@ function Invite() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     const generatedLink = await generateInvitationLink(values);
-    setLink(`http://localhost:3000/register/invite/${generatedLink}`);
+    if (generatedLink.message) {
+      console.log(generatedLink);
+      swal({
+        text: generatedLink.message,
+        icon: "error",
+        timer: 1500,
+        buttons: false,
+      });
+    } else {
+      setLink(`http://localhost:3000/register/invite/${generatedLink}`);
+    }
   };
   const copyToClipBoard = () => {
     navigator.clipboard.writeText(link);

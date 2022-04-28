@@ -1,17 +1,20 @@
 const { Invitations, Clients } = require("../models");
 const uniqueLinkGenerator = require("../utils/uniqueLinkGenerator");
+const invitationsDataFixer = require("../utils/invitationsDataFixer");
 
 exports.generateInvitationLink = async (req, res) => {
   try {
     const { email, fullName } = req.body;
-    //Controll if client is registered
+    //Controla si el usuario. Si el usuario no exite, envia mensaje y status
     const controlClientWasRegistered = await Clients.findOne({
       where: { email, fullName },
     });
-    //If client is not registered, redirect him to the registration website
     if (!controlClientWasRegistered) {
-      return res.status(400).redirect("/register");
+      return res
+        .status(400)
+        .send({ message: "User incorrect. Check email or Fullname" });
     }
+    //Genera un link de invitacion, lo registra en la base de datos y lo envia como respuesta
     const link = uniqueLinkGenerator();
     const newInvitation = await Invitations.create({
       link,
@@ -30,7 +33,13 @@ exports.getAllSuccessfulInvitationsData = async (req, res) => {
         consumed: true,
       },
     });
-    res.status(200).send(allSuccessfulInvitations);
+
+    const successfulInvitationsSort = await invitationsDataFixer(
+      allSuccessfulInvitations,
+      Clients
+    );
+
+    res.status(200).send(successfulInvitationsSort);
   } catch (error) {
     console.error(error);
   }
