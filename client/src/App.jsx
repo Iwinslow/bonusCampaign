@@ -5,6 +5,7 @@ import Invite from "./components/Invite";
 import Register from "./components/Register";
 import SuccessInvitations from "./components/SuccessInvitations";
 import Footer from "./components/Footer";
+import NoMatchRoute from "./components/NoMatchRoute";
 
 function App() {
   return (
@@ -17,6 +18,7 @@ function App() {
           path="/successfullinvitations"
           element={<SuccessInvitations />}
         />
+        <Route path="*" element={<NoMatchRoute />} />
       </Routes>
       <Footer />
     </BrowserRouter>
