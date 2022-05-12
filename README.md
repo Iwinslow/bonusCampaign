@@ -1,4 +1,4 @@
-# currencyBirdCampaign
+<h1>¡Campaña de Bonificaciones!</h1>
 
 <h3>Premisas</h3>
 <p>Debera contar con PostgreSQL instalado en su ordenador para correr el proyecto.</p>
@@ -44,4 +44,4 @@
     <li>Sequelize (ORM)</li>
     </ul>
 
-<h1>¡Muchas gracias por esta oportunidad!</h1>
+<h1>¡Have Fun!</h1>
